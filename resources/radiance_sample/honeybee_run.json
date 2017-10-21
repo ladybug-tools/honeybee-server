@@ -1,0 +1,5 @@
+[{
+  "init": ["room/2PM_DayCoeff.sh"],
+  "main": ["room/2PM_DayCoeff.sh"],
+  "result": ["room/results/dc/annualR.ill"]
+}]
