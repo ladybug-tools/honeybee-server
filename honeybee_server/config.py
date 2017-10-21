@@ -12,7 +12,7 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY', str(os.urandom(10)))
     # ASSETS_DEBUG = True if os.getenv('ASSETS_DEBUG') == '1' else False
 
-    UPLOAD_FOLDER = os.path.join(os.path.dirname(BASEDIR),'jobs')
+    JOBS_FOLDER = os.path.join(os.path.dirname(BASEDIR),'jobs')
     ALLOWED_EXTENSIONS = set(['zip'])
 
 class Development(Config):

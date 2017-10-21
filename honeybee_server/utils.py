@@ -1,7 +1,9 @@
 import os
 import uuid
 import zipfile
+from flask.json import jsonify
 from celery import Celery
+
 
 from . import flask_app
 
@@ -29,3 +31,8 @@ def unzip_file(filepath):
     folder_path = os.path.join(job_folderpath, folder_name)
     with zipfile.ZipFile(filepath,"r") as zip_ref:
         zip_ref.extractall(folder_path)
+
+def respond(code, message):
+    response = jsonify({'message': message})
+    response.status_code = code
+    return response
