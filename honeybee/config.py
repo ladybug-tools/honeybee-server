@@ -8,10 +8,8 @@ class Config(object):
     TESTING = False
     STAGING = False
     PRODUCTION = False
-    # BASEDIR = os.path.abspath(os.path.dirname(__file__))
-    # TEMPLATEDIR = os.path.join(BASEDIR, 'templates')
-    SECRET_KEY = os.environ['SECRET_KEY']
-
+    BASEDIR = os.path.abspath(os.path.dirname(__file__))
+    SECRET_KEY = os.environ.get('SECRET_KEY', str(os.urandom(10)))
     # ASSETS_DEBUG = True if os.getenv('ASSETS_DEBUG') == '1' else False
 
 
@@ -23,5 +21,5 @@ class Development(Config):
 class Production(Config):
     MODE = 'Production'
 
-flask_config = os.environ['FLASK_CONFIG']
+flask_config = os.environ.get('FLASK_CONFIG', 'Development')
 app.config.from_object('honeybee.config.{}'.format(flask_config))

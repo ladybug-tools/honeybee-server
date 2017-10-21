@@ -4,3 +4,21 @@ Endpoints:
 * JOB/[JOB_ID]/DELETE
 * JOB/[JOB_ID]/[SIMULATION_NAME]/DELETE
 * JOB/[JOB_ID]/[SIMULATION_NAME]/GET
+
+Database Schema:
+
+  Job Database
+  _____________________________________
+  |  JOB_ID  |  STATUS |               |
+   --------------------
+  |   UUID   |    0    |
+   --------------------
+  |   UUID   |    0    |
+   --------------------
+
+
+  Simulation/Task  Database
+  ________________________________
+  |  TASK_ID |  STATUS |  JOB_ID  |
+   -------------------------------
+  |   INDEX  |    0    |  JOB_ID  |

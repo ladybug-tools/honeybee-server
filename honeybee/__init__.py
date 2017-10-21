@@ -8,8 +8,8 @@ app = Flask(__name__)
 # app_api = Api(app)
 
 from honeybee import views
-# from pigeonpy import config
-# from pigeonpy import assets
+from honeybee import config
+# from honeybee import assets
 
 # app.logger.info('>>> {}'.format(app.config['MODE']))
 
