@@ -7,8 +7,8 @@ from flask import Flask, session
 app = Flask(__name__)
 # app_api = Api(app)
 
-from honeybee import views
 from honeybee import config
+from honeybee import views
 # from honeybee import assets
 
 # app.logger.info('>>> {}'.format(app.config['MODE']))

@@ -3,10 +3,12 @@ from flask import render_template, redirect, request, url_for
 from honeybee import app
 from werkzeug.utils import secure_filename
 
-UPLOAD_FOLDER = '../../jobs'
+base = app.config['BASEDIR']
+UPLOAD_FOLDER = os.path.join(os.path.dirname(base),'jobs')
 ALLOWED_EXTENSIONS = set(['zip'])
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -29,9 +31,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
-    return
+        return "File uploaded"
 def new_job():
     return 'Hello World'
     return render_template('index.html')
