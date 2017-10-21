@@ -13,6 +13,8 @@ def allowed_file(filename):
 def upload_file():
     if request.method == 'POST':
 
+        jobId = new_uuid()
+
         file = request.files.get('file', None)
         if not file:
             return 'No file sent with request'
@@ -20,7 +22,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(flask_app.config['UPLOAD_FOLDER'], filename))
-            return str(filename) + " uploaded."
+            return str(filename) + " uploaded. jobId is " +jobId
     return
 def new_job():
     return 'Hello World'

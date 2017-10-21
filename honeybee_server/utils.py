@@ -1,3 +1,4 @@
+import uuid
 from celery import Celery
 
 def make_celery(app):
