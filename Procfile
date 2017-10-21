@@ -1,1 +1,1 @@
-web: gunicorn honeybee-server:app --log-file -
+web: gunicorn honeybee:app --log-file -
