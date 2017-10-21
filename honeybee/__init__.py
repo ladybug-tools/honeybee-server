@@ -1,10 +1,12 @@
 import os
 from flask import Flask, session
+from flask_pymongo import PyMongo
 
 # from flask import Flask, session
 # import logging
 # from flask_restful import Api
 app = Flask(__name__)
+mongo = PyMongo(app)
 # app_api = Api(app)
 
 from honeybee import config
