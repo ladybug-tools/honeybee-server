@@ -9,6 +9,7 @@ def allowed_file(filename):
 	return '.' in filename and \
 			filename.rsplit('.', 1)[1].lower() in flask_app.config['ALLOWED_EXTENSIONS']
 
+# create a job
 @flask_app.route('/job/create', methods=['POST'])
 def upload_file():
 	if request.method == 'POST':
@@ -24,13 +25,26 @@ def upload_file():
 			os.mkdir(os.path.join(flask_app.config['UPLOAD_FOLDER'], jobId))
 			filepath = os.path.join(flask_app.config['UPLOAD_FOLDER'],jobId)
 			file.save(os.path.join(filepath,'job.zip'))
-			# create a new record in the DB with UUID
+            # TODO: create a new record in the DB with UUID
 			return str(filename) + " uploaded. jobId is " +jobId
 	return
 
-@flask_app.route('/job/<uuid:jobId>')
-def send_response(jobId):
-	return jsonify(
+# get job data or delete a job
+@flask_app.route('/job/<uuid:jobId>', methods=['GET','DELETE'])
+def job(jobId):
+    if request.method == 'DELETE':
+        #logic to halt radiance running this job and delete it from server
+        return jobId + " has been deleted"
+
+    if requets.method == 'GET':
+        #log to send back completed job data
+        return jobId + "'s data goes here"
+
+# get a job's status
+@flask_app.route('/job/<uuid:jobId>/status')
+def job_status(jobId):
+    return jsonify(
+        #placeholder info for Mingbo
 		{
 			"JobId": str(jobId),
 			"Simulations": [
@@ -47,4 +61,16 @@ def send_response(jobId):
 
 			]
 		})
-		#return str(jobId)
+
+# get a task's data
+@flask_app.route('/job/<uuid:jobId>/<taskId>')
+def get_task(taskId):
+    #logic to send back task data
+    return taskId
+
+# delete a task
+@flask_app.route('/job/<uuid:jobId>/<taskId>', methods=['DELETE'])
+def delete_task(taskId):
+    #logic to halt radiance running this task
+    return taskId + " has been deleted"
+
