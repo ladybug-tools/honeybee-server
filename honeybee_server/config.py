@@ -26,7 +26,8 @@ class Development(Config):
 class Production(Config):
 
     MODE = 'Production'
-    CELERY_BROKER_URL = CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
+    REDIS_URL = os.environ.get('REDIS_URL')
+    CELERY_BROKER_URL = CELERY_RESULT_BACKEND = REDIS_URL
     MONGO_URI = os.environ.get('MONGODB_URI')
 
 
