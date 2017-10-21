@@ -2,8 +2,10 @@ import os
 from flask import render_template, redirect, request, url_for
 from werkzeug.utils import secure_filename
 from flask.json import jsonify
+
 from . import flask_app
 from .utils import new_uuid, unzip_file
+from .logger import log
 
 def allowed_file(filename):
 	return '.' in filename and \
@@ -15,6 +17,7 @@ def upload_file():
 	if request.method == 'POST':
 
 		jobId = new_uuid()
+        log.debug('Job Received: {}'.format(jobId))
 
 		file = request.files.get('file', None)
 		if not file:
@@ -22,9 +25,10 @@ def upload_file():
 
 		if file and allowed_file(file.filename):
 			filename = secure_filename(file.filename)
-			os.mkdir(os.path.join(flask_app.config['UPLOAD_FOLDER'], jobId))
-			filepath = os.path.join(flask_app.config['UPLOAD_FOLDER'],jobId)
-			file.save(os.path.join(filepath,'job.zip'))
+			folder_path = os.path.join(flask_app.config['UPLOAD_FOLDER'], jobId)
+            os.mkdir(folder_path)
+            file_path =
+			file.save(os.path.join(folder_path,'job.zip'))
             # TODO: create a new record in the DB with UUID
 			return str(filename) + " uploaded. jobId is " +jobId
 	return
@@ -74,3 +78,7 @@ def delete_task(taskId):
     #logic to halt radiance running this task
     return taskId + " has been deleted"
 
+@flask_app.after_request
+def add_header(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    return response
