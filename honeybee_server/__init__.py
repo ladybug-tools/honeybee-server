@@ -2,7 +2,6 @@ import os
 from flask import Flask, session
 from flask_pymongo import PyMongo
 
-from .tasks import make_celery
 
 flask_app = Flask(__name__)
 mongo = PyMongo(flask_app)
@@ -10,6 +9,7 @@ mongo = PyMongo(flask_app)
 from . import views
 from . import config
 
+from .utils import make_celery
 celery = make_celery(flask_app)
 
 flask_app.logger.info('>>> {}'.format(flask_app.config['MODE']))
