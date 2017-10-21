@@ -18,5 +18,5 @@ class Job():
 
 @flask_app.route('/long')
 def long():
-    process_job('asdasd')
+    process_job.delay('asdasd')
     return 'Response'

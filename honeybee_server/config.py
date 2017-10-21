@@ -12,26 +12,24 @@ class Config(object):
     SECRET_KEY = os.environ.get('SECRET_KEY', str(os.urandom(10)))
     # ASSETS_DEBUG = True if os.getenv('ASSETS_DEBUG') == '1' else False
 
-
     UPLOAD_FOLDER = os.path.join(os.path.dirname(BASEDIR),'jobs')
     ALLOWED_EXTENSIONS = set(['zip'])
 
 class Development(Config):
     MODE = 'Development'
     DEBUG = True
-    CELERY_BROKER_URL='redis://localhost:6379',
-    CELERY_RESULT_BACKEND='redis://localhost:6379'
-    # MONGO_URI = 'Default'
+    REDIS_URL = 'redis://localhost:6379'
+    # REDIS_URL = 'redis://localhost:6379/0'
+    CELERY_BROKER_URL = CELERY_RESULT_BACKEND = REDIS_URL
+    # MONGO_URI = default
 
 class Production(Config):
-    MODE = 'Production'
 
-    try:
-        CELERY_BROKER_URL = os.environ['REDIS_URL']
-        CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
-        MONGO_URI = os.environ['MONGODB_URI']
-    except KeyError:
-        print('Missing REDIS_URL')
+    MODE = 'Production'
+    CELERY_BROKER_URL = CELERY_RESULT_BACKEND = os.environ.get('REDIS_URL')
+    MONGO_URI = os.environ.get('MONGODB_URI')
+
+
 
 
 flask_config = os.environ.get('FLASK_CONFIG', 'Development')
