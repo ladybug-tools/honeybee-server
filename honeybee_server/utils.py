@@ -1,4 +1,8 @@
+import os
+import zipfile
 from celery import Celery
+
+from . import flask_app
 
 def make_celery(app):
     celery = Celery(app.import_name, backend=app.config['CELERY_RESULT_BACKEND'],
@@ -15,3 +19,12 @@ def make_celery(app):
 
 def new_uuid():
     return str(uuid.uuid4())
+
+def unzip_file(filepath):
+    filename = os.path.basename(filepath)
+    folder_name = filename.split('.')[0]
+
+    job_folderpath = os.path.dirname(filepath)
+    folder_path = os.path.join(job_folderpath, folder_name)
+    with zipfile.ZipFile(filepath,"r") as zip_ref:
+        zip_ref.extractall(folder_path)

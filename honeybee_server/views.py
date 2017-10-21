@@ -3,7 +3,7 @@ from flask import render_template, redirect, request, url_for
 from werkzeug.utils import secure_filename
 
 from . import flask_app
-from .utils import new_uuid
+from .utils import new_uuid, unzip_file
 
 def allowed_file(filename):
     return '.' in filename and \
