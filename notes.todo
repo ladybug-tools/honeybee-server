@@ -1,0 +1,6 @@
+Endpoints:
+* JOB/CREATE[PAYLOAD][POST] > [JOB_ID]
+* JOB/[JOB_ID]/STATUS > STATUS {'Sim 1 ': [0: failed, 1:running, 2:finished], 'Sim 2': [status]}
+* JOB/[JOB_ID]/DELETE
+* JOB/[JOB_ID]/[SIMULATION_NAME]/DELETE
+* JOB/[JOB_ID]/[SIMULATION_NAME]/GET
