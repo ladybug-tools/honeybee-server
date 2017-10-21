@@ -4,7 +4,6 @@ from flask import Flask, session
 # from flask import Flask, session
 # import logging
 # from flask_restful import Api
-
 app = Flask(__name__)
 # app_api = Api(app)
 
