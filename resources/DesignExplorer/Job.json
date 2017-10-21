@@ -1,0 +1,16 @@
+{
+ "JobID": "dsfsakl"
+ "Simulations":[
+    {
+      "ChildID":"pkkrjle"
+      "Status":"running"
+      "isDone":False
+    },
+    {
+      "ChildID":"udfgdfe"
+      "Status":"done"
+      "isDone":True
+    },
+    
+ ]
+}

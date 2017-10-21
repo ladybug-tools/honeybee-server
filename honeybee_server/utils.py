@@ -1,4 +1,5 @@
 import os
+import uuid
 import zipfile
 from celery import Celery
 
