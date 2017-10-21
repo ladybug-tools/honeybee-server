@@ -15,7 +15,7 @@ class Config(object):
     CELERY_BROKER_URL='redis://localhost:6379',
     CELERY_RESULT_BACKEND='redis://localhost:6379'
 
-    UPLOAD_FOLDER = '../../jobs'
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(BASEDIR),'jobs')
     ALLOWED_EXTENSIONS = set(['zip'])
 
 class Development(Config):
