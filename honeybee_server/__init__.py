@@ -18,3 +18,7 @@ flask_app.logger.info('>>> {}'.format(flask_app.config['MODE']))
 # stream_handler = logging.StreamHandler()
 # stream_handler.setLevel(logging.INFO)
 # app.logger.addHandler(stream_handler)
+
+@celery.task()
+def add_together(a, b):
+    return a + b

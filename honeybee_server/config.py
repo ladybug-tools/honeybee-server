@@ -26,10 +26,12 @@ class Development(Config):
 class Production(Config):
     MODE = 'Production'
 
-    CELERY_BROKER_URL = os.environ['REDIS_URL']
-    CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
-
-    MONGO_URI = os.environ['MONGODB_URI']
+    try:
+        CELERY_BROKER_URL = os.environ['REDIS_URL']
+        CELERY_RESULT_BACKEND = os.environ['REDIS_URL']
+        MONGO_URI = os.environ['MONGODB_URI']
+    except KeyError:
+        print('Missing REDIS_URL')
 
 
 flask_config = os.environ.get('FLASK_CONFIG', 'Development')

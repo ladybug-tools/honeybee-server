@@ -12,8 +12,3 @@ def make_celery(app):
                 return TaskBase.__call__(self, *args, **kwargs)
     celery.Task = ContextTask
     return celery
-
-
-@celery.task()
-def add_together(a, b):
-    return a + b
