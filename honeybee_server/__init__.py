@@ -11,6 +11,7 @@ from . import config
 
 from .utils import make_celery
 celery = make_celery(flask_app)
+from .tasks import *
 
 flask_app.logger.info('>>> {}'.format(flask_app.config['MODE']))
 
@@ -18,7 +19,3 @@ flask_app.logger.info('>>> {}'.format(flask_app.config['MODE']))
 # stream_handler = logging.StreamHandler()
 # stream_handler.setLevel(logging.INFO)
 # app.logger.addHandler(stream_handler)
-
-@celery.task()
-def add_together(a, b):
-    return a + b
