@@ -12,6 +12,7 @@ def allowed_file(filename):
 def upload_file():
     if request.method == 'POST':
         # check if the post request has the file part
+        file = request.files.get('file', None)
         if 'file' not in request.files:
             #flash('No file part')
             #return redirect(request.url)
@@ -21,7 +22,7 @@ def upload_file():
         # submit a empty part without filename
         if file.filename == '':
             flash('No selected file')
-            return redirect(request.url)
+            return 'No selected file'
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(flask_app.config['UPLOAD_FOLDER'], filename))
