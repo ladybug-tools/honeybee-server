@@ -11,9 +11,12 @@ class Config(object):
     BASEDIR = os.path.abspath(os.path.dirname(__file__))
     SECRET_KEY = os.environ.get('SECRET_KEY', str(os.urandom(10)))
     # ASSETS_DEBUG = True if os.getenv('ASSETS_DEBUG') == '1' else False
+
     CELERY_BROKER_URL='redis://localhost:6379',
     CELERY_RESULT_BACKEND='redis://localhost:6379'
 
+    UPLOAD_FOLDER = '../../jobs'
+    ALLOWED_EXTENSIONS = set(['zip'])
 
 class Development(Config):
     MODE = 'Development'
