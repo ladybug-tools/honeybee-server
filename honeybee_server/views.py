@@ -22,10 +22,13 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             os.mkdir(os.path.join(flask_app.config['UPLOAD_FOLDER'], jobId))
-            file.save(os.path.join(flask_app.config['UPLOAD_FOLDER'], jobId, filename))
+            filepath = os.path.join(flask_app.config['UPLOAD_FOLDER'],jobId)
+            file.save(os.path.join(filepath,'job.zip'))
+            # create a new record in the DB with UUID
             return str(filename) + " uploaded. jobId is " +jobId
-        # create a new record in the DB with UUID
     return
-def new_job():
-    return 'Hello World'
-    return render_template('index.html')
+
+@flask_app.route('/job/<uuid:jobId>')
+
+def send_response(jobId):
+    return str(jobId)
