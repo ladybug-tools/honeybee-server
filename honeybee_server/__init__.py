@@ -1,9 +1,11 @@
 import os
 from flask import Flask, session
+from flask_pymongo import PyMongo
 
 from .tasks import make_celery
 
 flask_app = Flask(__name__)
+mongo = PyMongo(flask_app)
 
 from . import views
 from . import config
