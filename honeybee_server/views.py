@@ -4,7 +4,6 @@ from werkzeug.utils import secure_filename
 
 from . import flask_app
 
-
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in flask_app.config['ALLOWED_EXTENSIONS']
@@ -26,8 +25,7 @@ def upload_file():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(flask_app.config['UPLOAD_FOLDER'], filename))
-            return redirect(url_for('uploaded_file',
-                                    filename=filename))
+            return str(filename) + " uploaded."
     return
 def new_job():
     return 'Hello World'

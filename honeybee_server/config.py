@@ -13,7 +13,7 @@ class Config(object):
     # ASSETS_DEBUG = True if os.getenv('ASSETS_DEBUG') == '1' else False
 
 
-    UPLOAD_FOLDER = '../../jobs'
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(BASEDIR),'jobs')
     ALLOWED_EXTENSIONS = set(['zip'])
 
 class Development(Config):
