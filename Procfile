@@ -1,1 +1,1 @@
-web: gunicorn honeybee:app --log-file -
+web: gunicorn honeybee_server:flask_app --log-file -

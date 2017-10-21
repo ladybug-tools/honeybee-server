@@ -1,3 +1,3 @@
-from honeybee import app
+from honeybee_server import flask_app
 
-app.run(debug=True)
+flask_app.run(debug=True)
