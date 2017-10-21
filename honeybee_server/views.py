@@ -4,14 +4,10 @@ from werkzeug.utils import secure_filename
 
 from . import flask_app
 
-UPLOAD_FOLDER = '../../jobs'
-ALLOWED_EXTENSIONS = set(['zip'])
-
-flask_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in flask_app.config['ALLOWED_EXTENSIONS']
 
 @flask_app.route('/job/create', methods=['POST'])
 def upload_file():
