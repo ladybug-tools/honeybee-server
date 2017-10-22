@@ -162,3 +162,21 @@ def upload_file():
             file.save(os.path.join(flask_app.config['UPLOAD_FOLDER'], filename))
             return str(filename) + " uploaded."
     return
+
+
+@flask_app.route('/design/<string:job_id>')
+def dd_status(job_id):
+
+    jobs = [doc for doc in mongo.db.jobs.find({})]
+    response =  {
+                 "JobID": job_id,
+                 "Simulations": []
+                }
+    for job in jobs:
+        job = {
+                "ChildID": new_uuid(),
+                "Status": bool(job['status']),
+              }
+        response['Simulations'].append(job)
+
+    return respond(200, response)
