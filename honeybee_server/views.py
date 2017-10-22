@@ -92,7 +92,11 @@ def jobs():
 @flask_app.route('/job/<string:job_id>/status')
 def job_status(job_id):
     job_path = os.path.join(flask_app.config['JOBS_FOLDER'], job_id)
-    return jsonify(os.listdir(job_path))
+    if not os.path.exists('job_path'):
+        return respond(404, 'not found')
+    else:
+        return response(200, jsonify(os.listdir(job_path)))
+
     # return jsonify(
     #     # placeholder info for Mingbo
     #     {
