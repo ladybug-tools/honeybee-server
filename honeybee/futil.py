@@ -179,4 +179,7 @@ def bat_to_sh(file_path):
             outf.write(modified_line)
 
     # print('bash file is created at:\n\t%s' % sh_file)
+    st = os.stat(sh_file)
+    os.chmod(sh_file, st.st_mode | 0o111)
+
     return sh_file
