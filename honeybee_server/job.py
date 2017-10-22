@@ -6,7 +6,7 @@ from . import celery
 
 @celery.task()
 def process_job(filepath):
-    task_log = get_task_logger(__name__)
+    task_log = get_task_logger()
     print('Started')
     task_log.debug('Job START: {}'.format(filepath))
     import time
