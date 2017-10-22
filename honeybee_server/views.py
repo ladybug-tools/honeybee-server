@@ -62,12 +62,13 @@ def create_job():
     job.run()
     # TODO: create a new record in the DB with UUID
 
-    # new_job = mongo.db.jobs.insert_one({
-    #     "job_id": job_id,
-    #     "created_by": "webuser",
-    #     "status": 0,
-    #     "tasks": []
-    # })
+    new_job = mongo.db.jobs.insert_one({
+        "job_id": job_id,
+        "created_by": "webuser",
+        "status": 0,
+        "tasks": []
+    })
+
     return respond(201, job_id)
 
 
