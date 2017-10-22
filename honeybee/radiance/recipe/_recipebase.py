@@ -241,6 +241,9 @@ class AnalysisRecipe(object):
                                    shell=True)
 
         proc_stdout, errmsg = process.communicate()
+        print('Subprocess Log Results:')
+        print(proc_stdout)
+        print(errmsg)
 
         self._isCalculated = True
         # self.isChanged = False
