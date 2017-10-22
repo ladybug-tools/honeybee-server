@@ -2,6 +2,7 @@ from .logger import log
 from celery.utils.log import get_task_logger
 
 from . import celery
+from .utils import unzip_file
 
 task_log = get_task_logger('process_job')
 
@@ -9,8 +10,11 @@ task_log = get_task_logger('process_job')
 def process_job(filepath):
     print('Started')
     task_log.debug('Job START: {}'.format(filepath))
-    import time
-    time.sleep(10)
+
+
+    task_log.debug('Unzipping...')
+    unzip_file(filepath)
+
     task_log.debug('Job END: {}'.format(filepath))
     print('Ended')
 

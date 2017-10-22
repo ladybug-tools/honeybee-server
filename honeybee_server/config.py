@@ -31,7 +31,5 @@ class Production(Config):
     MONGO_URI = os.environ.get('MONGODB_URI')
 
 
-
-
 flask_config = os.environ.get('FLASK_CONFIG', 'Development')
 flask_app.config.from_object('honeybee_server.config.{}'.format(flask_config))
