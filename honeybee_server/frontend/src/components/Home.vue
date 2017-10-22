@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     getJobs () {
-      const path = `http://localhost:5000/api/jobs`
+      const path = `api/jobs`
       axios.get(path)
         .then(response => {
           console.log(response.data)
