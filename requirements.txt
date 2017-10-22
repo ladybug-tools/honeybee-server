@@ -11,7 +11,6 @@ itsdangerous==0.24
 Jinja2==2.9.6
 kombu==4.1.0
 MarkupSafe==1.0
-pymongo==3.5.1
 pytz==2017.2
 redis==2.10.6
 vine==1.1.4
