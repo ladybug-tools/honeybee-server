@@ -67,8 +67,7 @@ def create_job():
         "status": 0,
         "tasks": []
     })
-    msg = "{} uploaded. job_id is {}".format(job_filepath, job_id)
-    return respond(201, msg)
+    return respond(201, job_id)
 
 
 # get job data or delete a job

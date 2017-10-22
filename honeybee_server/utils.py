@@ -1,11 +1,13 @@
 import os
 import uuid
 import zipfile
+import subprocess
 from flask.json import jsonify
 from celery import Celery
 
 
 from . import flask_app
+from .logger import log
 
 def make_celery(app):
     # create context tasks in celery
@@ -31,8 +33,37 @@ def unzip_file(filepath):
     folder_path = os.path.join(job_folderpath, folder_name)
     with zipfile.ZipFile(filepath,"r") as zip_ref:
         zip_ref.extractall(folder_path)
+    return folder_path
 
 def respond(code, message):
     response = jsonify({'message': message})
     response.status_code = code
     return response
+
+
+def subprocess_cmd(command, cwd=None):
+    """ Helper function to call subprocess.Popen consistently without having
+    to repeat keyword settings"""
+    print('CMD: ' + command)
+    process = subprocess.Popen(command,
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE,
+                               shell=True,
+                               cwd=cwd)
+    proc_stdout, errmsg = process.communicate()
+    print(proc_stdout)
+    if errmsg:
+        print(errmsg)
+    return process, proc_stdout, errmsg
+
+def run_cmd(cmd_sh, job_folder):
+    cmd_filepath = os.path.join(job_folder, cmd_sh)
+    cmd_folder = os.path.dirname(cmd_filepath)
+
+    log.info('** Cmd: {}'.format(cmd_sh))
+    log.info('** Cwd: {}'.format(cmd_folder))
+    process, out, errmsg = subprocess_cmd(cmd_filepath, cwd=cmd_folder)
+    failed = process.returncode
+    log.info('OUT: {}'.format(out))
+    log.info('Failed: {}'.format(failed))
+    return process
