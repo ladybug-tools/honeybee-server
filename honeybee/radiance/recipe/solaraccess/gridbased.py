@@ -314,7 +314,7 @@ class SolarAccessGridBased(GenericGridBased):
         pointsFile = self.writeAnalysisGrids(projectFolder, projectName)
         # 2.write sun files
         sunsList, sunsMat, sunsGeo = \
-            self.writeSuns(projectFolder + '\\sky', projectName)
+            self.writeSuns(projectFolder + '/sky', projectName)
 
         # 2.1.add sun list to modifiers
         self._radianceParameters.modFile = self.relpath(sunsList, projectFolder)

@@ -40,6 +40,9 @@ def run_from_json(recipe, folder, name):
 
 if __name__ == '__main__':
     # import pdb; pdb.set_trace()
+    import honeybee
+    honeybee.config.radbinPath = '/usr/local/radiance/bin'
+    honeybee.config.radlibPath = '/usr/local/radiance/lib'
     fp = r"resources/dyn_analysis_recipe.json"
     full_path = os.path.join(os.path.dirname(__file__), fp)
     with open(full_path, 'rb') as inf:
