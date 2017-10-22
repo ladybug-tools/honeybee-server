@@ -1,6 +1,8 @@
 <template>
-  <div class="panel panel-default">
-    Job: {{job.job_id}} - {{job.created_by}}
+  <div>
+    <div class="panel panel-default">
+      Job: {{job.job_id}} - {{job.created_by}}
+    </div>
     <div class="panel panel-default">
     <!--  <ul class="list-group">
         <li class="list-group-item" v-for="task in job.tasks">
