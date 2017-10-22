@@ -7,7 +7,7 @@ from .logger import log
 # from celery import signals
 # from celery.utils.log import get_task_logger
 
-from . import celery
+from . import celery, mongo
 from .utils import unzip_file, run_cmd
 
 
@@ -16,7 +16,8 @@ from .utils import unzip_file, run_cmd
     # pass
 
 # @celery.task()
-def process_job(filepath):
+def process_job(job):
+    filepath = job.job_filepath
     log.info('Job START: {}'.format(filepath))
 
     log.info('Unzipping...')
@@ -39,12 +40,28 @@ def process_job(filepath):
     print('Print: Ended')
 
 
+def process_json(job):
+    filepath, job_id = job.job_filepath, job.job_id
+    log.debug('Job JSON: {}'.format(filepath))
+    from .from_json import run_from_json
+    with open(filepath, 'rb') as fp:
+        recipe = json.load(fp)
+    success = run_from_json(recipe, 'jobs', job_id)
+    print(success)
+    log.debug('Job JSON DONE')
+
+
+
 class Job():
 
-    def __init__(self, job_filepath):
+    def __init__(self, job_filepath, job_id):
         self.job_filepath = job_filepath
+        self.job_id = job_id
 
     def run(self):
-        process_job(self.job_filepath)
+        if self.job_filepath.lower().endswith('json'):
+            process_json(self)
+        elif self.job_filepath.lower().endswith('zip'):
+            process_job(self)
         # process_job.calling(self.job_filepath)
 

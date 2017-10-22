@@ -2,9 +2,17 @@
 import os
 import json
 
+from . import flask_app
+import honeybee
 from honeybee.radiance.recipe.solaraccess.gridbased import SolarAccessGridBased
 from honeybee.radiance.recipe.pointintime.gridbased import GridBased
 from honeybee.futil import bat_to_sh
+
+app_dir = flask_app.config['BASEDIR']
+project_dir = os.path.dirname(app_dir)
+bin_dir = os.path.join(project_dir, 'radiance')
+honeybee.config.radbinPath = os.path.join(bin_dir, 'bin')
+honeybee.config.radlibPath = os.path.join(bin_dir, 'lib')
 
 
 def run_from_json(recipe, folder, name):
@@ -25,6 +33,7 @@ def run_from_json(recipe, folder, name):
     # Convert bat to sh
     sh = bat_to_sh(bat)
 
+    # import pdb; pdb.set_trace()
     # start to run the subprocess
     if os.name == 'nt':
         success = rec.run(bat)
@@ -36,17 +45,3 @@ def run_from_json(recipe, folder, name):
         return True
     else:
         return False
-
-
-if __name__ == '__main__':
-    # import pdb; pdb.set_trace()
-    import honeybee
-    honeybee.config.radbinPath = '/usr/local/radiance/bin'
-    honeybee.config.radlibPath = '/usr/local/radiance/lib'
-    fp = r"resources/dyn_analysis_recipe.json"
-    full_path = os.path.join(os.path.dirname(__file__), fp)
-    with open(full_path, 'rb') as inf:
-        recipe = json.load(inf)
-    # os.chdir(os.path.dirname(__file__))
-    success = run_from_json(recipe, 'test', 'hackathon_dynamo')
-    print(success)

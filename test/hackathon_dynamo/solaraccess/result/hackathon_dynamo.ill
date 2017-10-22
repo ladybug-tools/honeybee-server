@@ -1,5 +1,5 @@
 #?RADIANCE
-/usr/local/radiance/bin/rmtxop -c 47.4 119.9 11.6 -fa result/hackathon_dynamo.dc
+/mnt/c/Dropbox/Shared/dev/repos/honeybee-server/radiance/bin/rmtxop -c 47.4 119.9 11.6 -fa result/hackathon_dynamo.dc
 NROWS=2500
 NCOLS=11
 NCOMP=1

@@ -8,7 +8,6 @@ from werkzeug.utils import secure_filename
 from bson import json_util
 from bson.objectid import ObjectId
 
-from . import flask_app
 from .utils import new_uuid, unzip_file, respond
 from .logger import log
 from .job import Job
@@ -43,7 +42,6 @@ def create_job():
     job_id = new_uuid()
     log.debug('Job Received: {}'.format(job_id))
 
-    # import pdb; pdb.set_trace()
     file = request.files.get('file', None)
     if not file:
         return respond(400, 'No file sent with request')
@@ -53,12 +51,15 @@ def create_job():
 
     jobs_folder = flask_app.config['JOBS_FOLDER']
     filename = secure_filename(file.filename)
+    file_ext = filename.split('.')[-1]
     folder_path = os.path.join(jobs_folder, job_id)
     os.mkdir(folder_path)
-    job_filepath = os.path.join(folder_path, 'job.zip')
+
+    job_filepath = os.path.join(folder_path, 'job.{}'.format(file_ext))
     file.save(job_filepath)
 
-    job = Job(job_filepath)
+    # job
+    job = Job(job_filepath, job_id)
     job.run()
     # TODO: create a new record in the DB with UUID
 
