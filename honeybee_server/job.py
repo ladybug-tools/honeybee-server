@@ -3,10 +3,10 @@ from celery.utils.log import get_task_logger
 
 from . import celery
 
+task_log = get_task_logger('process_job')
 
 @celery.task()
 def process_job(filepath):
-    task_log = get_task_logger('celery')
     print('Started')
     task_log.debug('Job START: {}'.format(filepath))
     import time

@@ -7,7 +7,7 @@ mongo = PyMongo(flask_app)
 from . import config
 from .logger import log
 # Add logger
-flask_app.logger.addHandler(log)
+# flask_app.logger.addHandler(log)
 log.info('>>> {}'.format(flask_app.config['MODE']))
 
 from .utils import make_celery
