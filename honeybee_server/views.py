@@ -62,12 +62,12 @@ def create_job():
     job.run()
     # TODO: create a new record in the DB with UUID
 
-    new_job = mongo.db.jobs.insert_one({
-        "job_id": job_id,
-        "created_by": "webuser",
-        "status": 0,
-        "tasks": []
-    })
+    # new_job = mongo.db.jobs.insert_one({
+    #     "job_id": job_id,
+    #     "created_by": "webuser",
+    #     "status": 0,
+    #     "tasks": []
+    # })
 
     return respond(201, job_id)
 
@@ -92,11 +92,12 @@ def jobs():
 # get a job's status
 @flask_app.route('/job/<string:job_id>/status')
 def job_status(job_id):
-    job_path = os.path.join(flask_app.config['JOBS_FOLDER'], job_id)
-    if not os.path.exists('job_path'):
+    jobs_path = os.path.join(flask_app.config['JOBS_FOLDER'])
+    if job_id not in os.listdir(jobs_path):
         return respond(404, 'not found')
     else:
-        return response(200, jsonify(os.listdir(job_path)))
+        job_path = os.path.join(jobs_path, job_id)
+        return respond(200, os.listdir(job_path))
 
     # return jsonify(
     #     # placeholder info for Mingbo
