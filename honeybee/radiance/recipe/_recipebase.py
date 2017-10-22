@@ -233,7 +233,14 @@ class AnalysisRecipe(object):
 
         # FIX: Heroku Permission Patch
         print('Command RUN: {}'.format(commandFile))
-        subprocess.call(commandFile)
+        # subprocess.call(commandFile)
+        # subprocess.Popen(commandFile, shell=False)
+        process = subprocess.Popen(commandFile,
+                                   stdout=subprocess.PIPE,
+                                   stderr=subprocess.PIPE,
+                                   shell=True)
+
+        proc_stdout, errmsg = process.communicate()
 
         self._isCalculated = True
         # self.isChanged = False
