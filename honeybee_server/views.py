@@ -24,6 +24,7 @@ def catch_all(path):
 def get_all_jobs():
     jobs = [doc for doc in mongo.db.jobs.find({})]
     [j.pop('_id') for j in jobs]
+    [j.pop('data', None) for j in jobs]
     return respond(200, jobs)
 
 
@@ -31,6 +32,8 @@ def get_all_jobs():
 def get_one_job(job_id):
     m_job = mongo.db.jobs.find_one({"job_id": job_id})
     m_job.pop('_id')
+    if m_job.get('data'):
+        m_job['data'] = json.loads(m_job['data'])
     return respond(200, m_job)
 
 def allowed_file(filename):
