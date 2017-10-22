@@ -3,9 +3,10 @@ from flask import render_template, redirect, request, url_for, abort
 from werkzeug.utils import secure_filename
 from flask.json import jsonify
 
-from . import flask_app
+from . import flask_app, celery
 from .utils import new_uuid, unzip_file, respond
 from .logger import log
+from .job import Job
 
 def allowed_file(filename):
 	return '.' in filename and \
@@ -13,7 +14,7 @@ def allowed_file(filename):
 
 # create a job
 @flask_app.route('/job/create', methods=['POST'])
-def upload_file():
+def create_job():
 
     job_id = new_uuid()
     log.debug('Job Received: {}'.format(job_id))
@@ -26,15 +27,18 @@ def upload_file():
         return respond(400, 'Invalid file type: {}'.format(filename))
 
     jobs_folder = flask_app.config['JOBS_FOLDER']
-
     filename = secure_filename(file.filename)
     folder_path = os.path.join(jobs_folder, job_id)
     os.mkdir(folder_path)
-    filepath = os.path.join(folder_path,'job.zip')
-    file.save(filepath)
+    job_filepath = os.path.join(folder_path,'job.zip')
+    file.save(job_filepath)
 
+    # process_job.delay(job_filepath)
+    job = Job(job_filepath)
+    job.run()
     # TODO: create a new record in the DB with UUID
-    msg = "{} uploaded. job_id is {}".format(filename, job_id)
+    msg = "{} uploaded. job_id is {}".format(job_filepath, job_id)
+    return msg
     return respond(201, msg)
 
 # get job data or delete a job

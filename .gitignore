@@ -4,3 +4,5 @@ __pycache__
 jobs/*
 !jobs/.placeholder
 .idea
+redis-stable
+*.sublime-*

@@ -1,21 +1,13 @@
-import os
-from flask import Flask, session
+from flask import Flask
 from flask_pymongo import PyMongo
-
 
 flask_app = Flask(__name__)
 mongo = PyMongo(flask_app)
 
-from . import views
 from . import config
+from .logger import log
+log.info('>>> {}'.format(flask_app.config['MODE']))
 
 from .utils import make_celery
 celery = make_celery(flask_app)
-from .tasks import *
-
-flask_app.logger.info('>>> {}'.format(flask_app.config['MODE']))
-
-# Add logger
-# stream_handler = logging.StreamHandler()
-# stream_handler.setLevel(logging.INFO)
-# app.logger.addHandler(stream_handler)
+from . import views
