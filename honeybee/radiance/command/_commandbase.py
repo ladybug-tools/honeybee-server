@@ -146,6 +146,7 @@ class RadianceCommand(object):
         # FIX: Heroku Permission Patch
         print('Executable: {}'.format(__executable))
         try:
+            st = os.stat(__executable)
             os.chmod(__executable, st.st_mode | 0o111)
             # st = os.stat(__executable)
             # os.chmod(__executable, st.st_mode | stat.S_IEXEC)
