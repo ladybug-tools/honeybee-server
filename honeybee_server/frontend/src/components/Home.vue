@@ -3,9 +3,9 @@
     <ul class="list-group">
       <li class="list-group-item"
           v-for="job in jobs">
-        <a v-bind:href="'/job/' + job.job_id">
+        <router-link :to="'job/' + job.job_id">    
           Job: {{job.job_id}} - {{job.created_by}} - Status: {{ job.status }}
-        </a>
+        </router-link>
       </li>
     </ul>
   </div>
