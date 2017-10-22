@@ -6,17 +6,17 @@
   "keywords": ["honeybee", "ladybug-tools"],
   "env": {
     "FLASK_CONFIG": {
-      "description": "Flask Env Config.",
-      "generator": "generator"
+      "description": "Flask Enviroment Config",
+      "value": "Production"
     }
    },
   "addons": [
-     "redis",
+     "Heroku Redis",
      {
        "plan": "heroku-redis:hobby-dev",
        "as": "REDIS"
      },
-     "mongolab",
+     "mLab MongoDB",
      {
        "plan": "mongolab:sandbox",
        "as": "MONGODB"
