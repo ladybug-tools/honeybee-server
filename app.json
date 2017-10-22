@@ -1,0 +1,7 @@
+{
+  "name": "Honeybee Server",
+  "description": "Honeybee Personal Server",
+  "repository": "https://github.com/ladybug-tools/honeybee-server",
+  "logo": "https://raw.githubusercontent.com/ladybug-tools/ladybug-tools.github.io/master/assets/img/honeybee.png",
+  "keywords": ["honeybee", "ladybug-tools"]
+}
