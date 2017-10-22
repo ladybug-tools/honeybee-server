@@ -11,7 +11,7 @@ from . import celery
 from .utils import unzip_file, run_cmd
 
 task_log = get_task_logger(__name__)
-ch = logging.StreamHandler()
+ch = logging.StreamHandler(stream=sys.stderr)
 ch.setLevel(logging.INFO)
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 ch.setFormatter(formatter)
