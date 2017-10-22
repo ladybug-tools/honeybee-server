@@ -60,7 +60,7 @@ def create_job():
 
     # job
     job = Job(job_filepath, job_id)
-    job.run()
+    results = job.run()
     # TODO: create a new record in the DB with UUID
 
     log.debug('Creating Mongo Entry')
@@ -71,8 +71,9 @@ def create_job():
         "tasks": []
     })
     log.debug('Mongo Entry Created')
-
-    return respond(201, job_id)
+    # import pdb; pdb.set_trace()
+    return respond(201, results)
+    # return respond(201, job_id)
 
 
 # get job data or delete a job

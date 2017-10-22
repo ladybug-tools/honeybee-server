@@ -42,6 +42,6 @@ def run_from_json(recipe, folder, name):
 
     # run post-processing code
     if success:
-        return True, rec.results()
+        return (True, [r.toJson() for r in rec.results()])
     else:
-        return False, ()
+        return (False, ())

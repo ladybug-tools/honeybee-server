@@ -346,7 +346,7 @@ class SolarAccessGridBased(GenericGridBased):
 
         batchFile = os.path.join(projectFolder, "commands.bat")
         rmtx = RGBMatrixFileToIll((str(rct.outputFile),),
-                                  'result\\{}.ill'.format(projectName))
+                                  'result/{}.ill'.format(projectName))
 
         # # 4.3 write batch file
         self._commands.append(oc.toRadString())

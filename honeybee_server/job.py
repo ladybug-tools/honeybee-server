@@ -38,6 +38,7 @@ def process_job(job):
 
     log.debug('Job END: {}'.format(filepath))
     print('Print: Ended')
+    return result
 
 
 def process_json(job):
@@ -46,7 +47,7 @@ def process_json(job):
     from .from_json import run_from_json
     with open(filepath, 'rb') as fp:
         recipe = json.load(fp)
-    success = run_from_json(recipe, 'test', 'hackathon_dynamo')
+    success, results = run_from_json(recipe, 'test', 'hackathon_dynamo')
     log.debug('Status: {}'.format(success))
     log.debug('Job JSON DONE')
 
@@ -56,6 +57,8 @@ def process_json(job):
     #     "$set": {"status": 1}
     #    }
     # )
+    import pdb; pdb.set_trace()
+    return results
 
 
 
@@ -67,7 +70,7 @@ class Job():
 
     def run(self):
         if self.job_filepath.lower().endswith('json'):
-            process_json(self)
+            return process_json(self)
         elif self.job_filepath.lower().endswith('zip'):
             process_job(self)
         # process_job.calling(self.job_filepath)
