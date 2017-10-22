@@ -1,0 +1,43 @@
+
+
+  <section class="jumbotron ">
+    <div class="container">
+      <h1>Honeybee Server Monitor</h1>
+    </div>
+  </section>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12" >
+            <div class="col-lg-10">
+                  <ul class="list-group">
+                    <li class="list-group-item"><p>Server URL (TODO Make link short):</p> <input  class="form-control input-sm" type="serverURL" [(ngModel)]="serverURL" value="https://honeybee-server.herokuapp.com/job/56198ebc-2de6-4eaa-af7d-1c9a8a7d6d91"></li> 
+                    <li class="list-group-item form-inline">
+                        <div class="col-sm-5">
+                      <button id="CheckStatus" type="button" class="btn" (click)="CheckStatus(serverURL)">Check the status</button>
+                    </div>
+                    <div class="col-sm-5"><button id="ToDE" type="button" class="btn">To DesignExplorer</button></div>
+                      
+                    </li>
+                  </ul>
+            </div>
+
+            <div class="col-lg-10">
+              
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="70"
+                aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': SimJob.StatusPercentage + '%'}">
+                {{JobStatusMsg}}
+                </div>
+            </div>
+
+
+            </div>
+        </div>
+        
+        <!-- <input  class="form-control input-sm" type="text" [(ngModel)]="returnJson"> -->
+      </div>
+
+    </div>
+

@@ -46,9 +46,16 @@ def process_json(job):
     from .from_json import run_from_json
     with open(filepath, 'rb') as fp:
         recipe = json.load(fp)
-    success = run_from_json(recipe, 'jobs', job_id)
-    print(success)
+    success = run_from_json(recipe, 'test', 'hackathon_dynamo')
+    log.debug('Status: {}'.format(success))
     log.debug('Job JSON DONE')
+
+    # updated_job = mongo.db.jobs.update_one(
+    #    {"job_id": job_id},
+    #    {
+    #     "$set": {"status": 1}
+    #    }
+    # )
 
 
 
