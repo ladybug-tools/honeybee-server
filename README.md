@@ -1,7 +1,13 @@
 # honeybee-server
-Honeybee server for the hackathon
+Personal Honeybee Server
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ladybug-tools/honeybee-server)
 
-python run.py
+## Requirements:
 
-mongod.exe --dbpath "C:\mongo"
+`pip install -r requiremnets.txt`
+`redis-server`
+`celery worker`
+`python run.py`
+or
+`./run-local.sh`
