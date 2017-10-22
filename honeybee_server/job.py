@@ -57,7 +57,7 @@ def process_json(job):
     #     "$set": {"status": 1}
     #    }
     # )
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     return results
 
 
