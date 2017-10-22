@@ -49,6 +49,15 @@ def create_job():
     if not allowed_file(file.filename):
         return respond(400, 'Invalid file type: {}'.format(filename))
 
+    log.debug('Creating Mongo Entry')
+    new_job = mongo.db.jobs.insert_one({
+        "job_id": job_id,
+        "created_by": "webuser",
+        "status": 0,
+        "tasks": []
+    })
+    log.debug('Mongo Entry Created')
+
     jobs_folder = flask_app.config['JOBS_FOLDER']
     filename = secure_filename(file.filename)
     file_ext = filename.split('.')[-1]
@@ -63,17 +72,8 @@ def create_job():
     results = job.run()
     # TODO: create a new record in the DB with UUID
 
-    log.debug('Creating Mongo Entry')
-    new_job = mongo.db.jobs.insert_one({
-        "job_id": job_id,
-        "created_by": "webuser",
-        "status": 0,
-        "tasks": []
-    })
-    log.debug('Mongo Entry Created')
-    # import pdb; pdb.set_trace()
-    return respond(201, results)
     # return respond(201, job_id)
+    return respond(201, results)
 
 
 # get job data or delete a job

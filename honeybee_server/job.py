@@ -51,13 +51,13 @@ def process_json(job):
     log.debug('Status: {}'.format(success))
     log.debug('Job JSON DONE')
 
-    # updated_job = mongo.db.jobs.update_one(
-    #    {"job_id": job_id},
-    #    {
-    #     "$set": {"status": 1}
-    #    }
-    # )
-    # import pdb; pdb.set_trace()
+    updated_job = mongo.db.jobs.update_one(
+       {"job_id": job_id},
+       {
+        "$set": {"status": 1}
+       }
+    )
+
     return results
 
 
