@@ -231,6 +231,8 @@ class AnalysisRecipe(object):
             with open(commandFile, "a") as bf:
                 bf.write("\npause\n")
 
+        # FIX: Heroku Permission Patch
+        print('Command RUN: {}'.format(commandFile))
         subprocess.call(commandFile)
 
         self._isCalculated = True

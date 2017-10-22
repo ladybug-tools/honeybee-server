@@ -144,10 +144,13 @@ class RadianceCommand(object):
                     os.path.join(str(radbinPath), self.__class__.__name__.lower()))
 
         # FIX: Heroku Permission Patch
+        print('Executable: {}'.format(__executable))
         try:
-            st = os.stat(__executable)
-            os.chmod(__executable, st.st_mode | stat.S_IEXEC)
-        except:
+            os.chmod(__executable, st.st_mode | 0o111)
+            # st = os.stat(__executable)
+            # os.chmod(__executable, st.st_mode | stat.S_IEXEC)
+        except Exception as errmsg:
+            print('Could not CHMOD executable: {}'.format(errmsg))
             pass
         else:
             print('Added CHMOD to executable')
