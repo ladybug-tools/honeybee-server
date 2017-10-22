@@ -25,7 +25,7 @@
         const path = `http://localhost:5000/api/job/` + this.$route.params.job_id
         axios.get(path)
           .then(response => {
-            console.log(response);
+            console.log(response)
             this.job = response.data
           })
           .catch(error => {

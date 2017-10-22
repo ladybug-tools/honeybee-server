@@ -72,6 +72,6 @@ class Job():
         if self.job_filepath.lower().endswith('json'):
             return process_json(self)
         elif self.job_filepath.lower().endswith('zip'):
-            process_job(self)
+            return process_job(self)
         # process_job.calling(self.job_filepath)
 

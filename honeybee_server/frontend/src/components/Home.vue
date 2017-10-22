@@ -4,7 +4,7 @@
       <li class="list-group-item"
           v-for="job in jobs">
         <a v-bind:href="'/job/' + job._id.$oid">
-          Job: {{job._id.$oid}} - {{job.created_by}}
+          Job: {{job._id.$oid}} - {{job.created_by}} - Status: {{ job.status }}
         </a>
       </li>
     </ul>
