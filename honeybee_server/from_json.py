@@ -10,10 +10,10 @@ from honeybee.futil import bat_to_sh
 
 app_dir = flask_app.config['BASEDIR']
 project_dir = os.path.dirname(app_dir)
-bin_dir = os.path.join(project_dir, 'radiance')
-honeybee.config.radbinPath = os.path.join(bin_dir, 'bin')
-honeybee.config.radlibPath = os.path.join(bin_dir, 'lib')
-
+radiance_dir = os.path.join(project_dir, 'radiance')
+honeybee.config.radbinPath = os.path.join(radiance_dir, 'bin')
+honeybee.config.radlibPath = os.path.join(radiance_dir, 'lib')
+# import pdb; pdb.set_trace()
 
 def run_from_json(recipe, folder, name):
     """Create a python recipe from json object and run the analysis."""

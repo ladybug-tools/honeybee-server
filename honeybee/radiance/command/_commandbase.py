@@ -142,7 +142,8 @@ class RadianceCommand(object):
                 __executable = os.path.normpath(
                     os.path.join(str(radbinPath), self.__class__.__name__.lower()))
 
-        if not (os.path.isfile(__executable) and os.access(__executable, os.X_OK)):
+        if not os.path.isfile(__executable):
+        # if not (os.path.isfile(__executable) and os.access(__executable, os.X_OK)):
             __err = "Can't find %s.\n" % __executable + \
                 "Use radbinPath method to set the path to " + \
                 "Radiance binaries before executing the command."
