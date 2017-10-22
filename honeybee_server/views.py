@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 from bson import json_util
 from bson.objectid import ObjectId
 
-from .utils import new_uuid, unzip_file, respond
+from .utils import new_uuid, unzip_file, respond, JSONEncoder
 from .logger import log
 from .job import Job
 from . import flask_app, mongo
@@ -20,17 +20,16 @@ def catch_all(path):
     return render_template("index.html")
 
 
-@flask_app.route('/api/job', methods=['GET'])
+@flask_app.route('/api/jobs', methods=['GET'])
 def get_all_jobs():
     jobs = [doc for doc in mongo.db.jobs.find({})]
-    return json.dumps(jobs, sort_keys=True, indent=4, default=json_util.default)
+    return respond(200, JSONEncoder().encode(jobs))
 
 
 @flask_app.route('/api/job/<string:job_id>', methods=['GET'])
 def get_one_job(job_id):
     m_job = mongo.db.jobs.find_one({"_id": ObjectId(job_id)})
-    return json.dumps(m_job, sort_keys=True, indent=4, default=json_util.default)
-
+    return respond(200, JSONEncoder().encode(m_job))
 
 def allowed_file(filename):
     return '.' in filename and \

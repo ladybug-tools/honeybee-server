@@ -2,9 +2,10 @@ import os
 import uuid
 import zipfile
 import subprocess
+import json
 from flask.json import jsonify
 from celery import Celery
-
+from bson import ObjectId
 
 from . import flask_app
 from .logger import log
@@ -67,3 +68,9 @@ def run_cmd(cmd_sh, job_folder):
     log.info('OUT: {}'.format(out))
     log.info('Failed: {}'.format(failed))
     return process
+
+class JSONEncoder(json.JSONEncoder):
+    def default(self, o):
+        if isinstance(o, ObjectId):
+            return str(o)
+        return json.JSONEncoder.default(self, o)
