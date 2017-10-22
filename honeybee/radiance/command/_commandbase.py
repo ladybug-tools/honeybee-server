@@ -3,6 +3,7 @@ from ... import config
 
 from abc import ABCMeta, abstractmethod, abstractproperty
 import os
+import stat
 import subprocess
 
 
@@ -141,6 +142,15 @@ class RadianceCommand(object):
             else:
                 __executable = os.path.normpath(
                     os.path.join(str(radbinPath), self.__class__.__name__.lower()))
+
+        # FIX: Heroku Permission Patch
+        try:
+            st = os.stat(__executable)
+            os.chmod(__executable, st.st_mode | stat.S_IEXEC)
+        except:
+            pass
+        else:
+            print('Added CHMOD to executable')
 
         if not os.path.isfile(__executable):
         # if not (os.path.isfile(__executable) and os.access(__executable, os.X_OK)):
