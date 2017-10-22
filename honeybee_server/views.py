@@ -76,11 +76,11 @@ def create_job():
 def job(job_id):
     if request.method == 'DELETE':
         # logic to halt radiance running this job and delete it from server
-        return job_id + " has been deleted"
+        return respond(201, job_id)
 
     if request.method == 'GET':
         # log to send back completed job data
-        return job_id + "'s data goes here"
+        return respond(200, 'data here')
 
 
 # get a job's status
