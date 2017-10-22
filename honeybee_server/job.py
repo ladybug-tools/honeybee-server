@@ -18,10 +18,11 @@ def on_celery_setup_logging(**kwargs):
 
 @celery.task()
 def process_job(filepath):
-    sys.stdout.write('TEST!')
-    sys.stdout.flush()
+    # sys.stdout.write('TEST!')
+    # sys.stdout.flush()
+    log.critical('test')
     print('Print: Job Started')
-    task_log.info('Job START: {}'.format(filepath))
+    task_log.critical('Job START: {}'.format(filepath))
     task_log.info('Unzipping...')
     job_folder = unzip_file(filepath)
     job_file = os.path.join(job_folder, 'honeybee_run.json')
