@@ -6,3 +6,4 @@ jobs/*
 .idea
 redis-stable
 *.sublime-*
+*.log
