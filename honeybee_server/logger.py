@@ -6,14 +6,14 @@ LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG')
 
 LOGGER_CONFIG = {
       "version": 1,
-      "disable_existing_loggers": True,
+      "disable_existing_loggers": False,
       "handlers":
       {"console": {"class": "logging.StreamHandler", "formatter": "simple"}},
       "formatters": {
           "simple": {
               "format": "[%(levelname)s] %(message)s [%(filename)s](%(lineno)d)[%(asctime)s]",
               "datefmt": "%I:%M:%S"}},
-      "loggers": {"": {"handlers": ["console"], "level": LOG_LEVEL}}}
+      "loggers": {"honeybee": {"handlers": ["console"], "level": LOG_LEVEL}}}
 
 log_levels = {50: 'CRITICAL',
               40: 'ERROR',
@@ -24,5 +24,5 @@ log_levels = {50: 'CRITICAL',
 
 dictConfig(LOGGER_CONFIG)
 
-log = logging.getLogger()  # Sets Root Logger
+log = logging.getLogger("honeybee")  # Sets Root Logger
 log.info('** LOG LEVEL: {}'.format(log_levels[log.getEffectiveLevel()]))
