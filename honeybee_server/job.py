@@ -47,7 +47,7 @@ def process_json(job):
     from .from_json import run_from_json
     with open(filepath, 'rb') as fp:
         recipe = json.load(fp)
-    success, results = run_from_json(recipe, 'test', 'hackathon_dynamo')
+    success, results = run_from_json(recipe, 'jobs', job_id)
     log.debug('Status: {}'.format(success))
     log.debug('Job JSON DONE')
 
