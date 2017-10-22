@@ -8,7 +8,6 @@ flask_app = Flask(__name__,
 
 cors = CORS(flask_app, resources={r"/api/*": {"origins": "*"}})
 
-mongo = PyMongo(flask_app)
 
 from . import config
 from .logger import log
@@ -17,6 +16,8 @@ log.info('>>> {}'.format(flask_app.config['MODE']))
 
 from .utils import make_celery
 celery = make_celery(flask_app)
+
+mongo = PyMongo(flask_app)
 
 from . import views
 

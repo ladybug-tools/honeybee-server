@@ -21,15 +21,15 @@ class Development(Config):
     REDIS_URL = 'redis://localhost:6379'
     # REDIS_URL = 'redis://localhost:6379/0'
     CELERY_BROKER_URL = CELERY_RESULT_BACKEND = REDIS_URL
-    MONGO_PORT = 27017
-    MONGO_HOST = 'http://127.0.0.1'
+    # MONGO_PORT = 27017
+    # MONGO_HOST = 'http://127.0.0.1'
 
 class Production(Config):
     MODE = 'Production'
     DEBUG = True
     REDIS_URL = os.environ.get('REDIS_URL')
     CELERY_BROKER_URL = CELERY_RESULT_BACKEND = REDIS_URL
-    MONGO_PORT = 29315
+    # MONGO_PORT = 29315
     MONGO_URI = os.environ.get('MONGODB_URI')
 
 
