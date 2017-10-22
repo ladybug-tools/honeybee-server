@@ -25,6 +25,7 @@ class Development(Config):
 
 class Production(Config):
 
+    DEBUG = True
     MODE = 'Production'
     REDIS_URL = os.environ.get('REDIS_URL')
     CELERY_BROKER_URL = CELERY_RESULT_BACKEND = REDIS_URL
