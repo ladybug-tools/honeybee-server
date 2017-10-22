@@ -5,11 +5,16 @@ import logging
 
 from .logger import log
 from celery.utils.log import get_task_logger
+from celery import signals
 
 from . import celery
 from .utils import unzip_file, run_cmd
 
 task_log = get_task_logger(__name__)
+
+@signals.setup_logging.connect
+def on_celery_setup_logging(**kwargs):
+    pass
 
 @celery.task()
 def process_job(filepath):
