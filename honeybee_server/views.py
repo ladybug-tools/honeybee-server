@@ -84,26 +84,28 @@ def job(job_id):
 
 
 # get a job's status
-@flask_app.route('/job/<uuid:job_id>/status')
+@flask_app.route('/job/<string:job_id>/status')
 def job_status(job_id):
-    return jsonify(
-        # placeholder info for Mingbo
-        {
-            "JobId": str(job_id),
-            "Simulations": [
-                {
-                    "childId": "pkkrjle",
-                    "Status": "running",
-                    "isDone": False
-                },
-                {
-                    "childId": "udfgdfe",
-                    "Status": "done",
-                    "isDone": True
-                },
+    job_path = os.path.join(flask_app.config['JOBS_FOLDER'], job_id)
+    return jsonify(os.listdir('jobs'))
+    # return jsonify(
+    #     # placeholder info for Mingbo
+    #     {
+    #         "JobId": str(job_id),
+    #         "Simulations": [
+    #             {
+    #                 "childId": "pkkrjle",
+    #                 "Status": "running",
+    #                 "isDone": False
+    #             },
+    #             {
+    #                 "childId": "udfgdfe",
+    #                 "Status": "done",
+    #                 "isDone": True
+    #             },
 
-            ]
-        })
+    #         ]
+    #     })
 
 
 # get a task's data
