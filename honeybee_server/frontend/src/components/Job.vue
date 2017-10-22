@@ -4,7 +4,7 @@
     <div class="panel panel-default">
       <ul class="list-group">
         <li class="list-group-item" v-for="task in job.tasks">
-          Task:
+          Task: {{task.$oid}}
         </li>
       </ul>
     </div>
