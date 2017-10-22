@@ -32,9 +32,9 @@ def run_from_json(recipe, folder, name):
 
     # run post-processing code
     if success:
-        return True
+        return True, rec.results()
     else:
-        return False
+        return False, ()
 
 
 if __name__ == '__main__':
@@ -43,5 +43,5 @@ if __name__ == '__main__':
     with open(full_path, 'rb') as inf:
         recipe = json.load(inf)
     os.chdir(os.path.dirname(__file__))
-    success = run_from_json(recipe, 'test', 'hackathon_dynamo')
+    success, results = run_from_json(recipe, 'test', 'gh_solar_access')
     print(success)
