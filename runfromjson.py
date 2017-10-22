@@ -1,10 +1,10 @@
-#!/usr/bin/env python
 """Set up and run a radiance analysis from a json file."""
+import os
+import json
+
 from honeybee.radiance.recipe.solaraccess.gridbased import SolarAccessGridBased
 from honeybee.radiance.recipe.pointintime.gridbased import GridBased
 from honeybee.futil import bat_to_sh
-import os
-import json
 
 
 def run_from_json(recipe, folder, name):
@@ -19,6 +19,7 @@ def run_from_json(recipe, folder, name):
             "Currently only the id of [0] SolarAccess and [1] pointintime are supported!"
             .format(recipe['id'])
         )
+
     # generate bat file
     bat = rec.write(folder, name)
     # Convert bat to sh
@@ -38,10 +39,11 @@ def run_from_json(recipe, folder, name):
 
 
 if __name__ == '__main__':
+    # import pdb; pdb.set_trace()
     fp = r"resources/dyn_analysis_recipe.json"
     full_path = os.path.join(os.path.dirname(__file__), fp)
     with open(full_path, 'rb') as inf:
         recipe = json.load(inf)
-    os.chdir(os.path.dirname(__file__))
+    # os.chdir(os.path.dirname(__file__))
     success = run_from_json(recipe, 'test', 'hackathon_dynamo')
     print(success)

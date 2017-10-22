@@ -259,7 +259,6 @@ class SolarAccessGridBased(GenericGridBased):
             _geo[count] = \
                 'solar{0} source sun{0} 0 0 4 {1} {2} {3} 0.533'.format(
                     count, v.X, v.Y, v.Z)
-
         _sunsf = writeToFile(os.path.join(targetDir, projectName + '.sun'),
                              '\n'.join(_suns) + '\n', mkdir)
         _matf = writeToFile(os.path.join(targetDir, projectName + '_suns.mat'),
@@ -313,7 +312,6 @@ class SolarAccessGridBased(GenericGridBased):
 
         # 1.write points
         pointsFile = self.writeAnalysisGrids(projectFolder, projectName)
-
         # 2.write sun files
         sunsList, sunsMat, sunsGeo = \
             self.writeSuns(projectFolder + '\\sky', projectName)
