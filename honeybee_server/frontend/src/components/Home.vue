@@ -3,7 +3,7 @@
     <ul class="list-group">
       <li class="list-group-item"
           v-for="job in jobs">
-        <a v-bind:href="'/api/job/' + job._id.$oid">
+        <a v-bind:href="'/job/' + job._id.$oid">
           Job: {{job._id.$oid}} - {{job.created_by}}
         </a>
       </li>
