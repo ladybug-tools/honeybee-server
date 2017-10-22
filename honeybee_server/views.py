@@ -23,13 +23,15 @@ def catch_all(path):
 @flask_app.route('/api/jobs', methods=['GET'])
 def get_all_jobs():
     jobs = [doc for doc in mongo.db.jobs.find({})]
-    return respond(200, JSONEncoder().encode(jobs))
+    [j.pop('_id') for j in jobs]
+    return respond(200, jobs)
 
 
 @flask_app.route('/api/job/<string:job_id>', methods=['GET'])
 def get_one_job(job_id):
-    m_job = mongo.db.jobs.find_one({"_id": ObjectId(job_id)})
-    return respond(200, JSONEncoder().encode(m_job))
+    m_job = mongo.db.jobs.find_one({"job_id": job_id})
+    m_job.pop('_id')
+    return respond(200, m_job)
 
 def allowed_file(filename):
     return '.' in filename and \

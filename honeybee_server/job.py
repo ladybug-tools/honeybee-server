@@ -54,7 +54,7 @@ def process_json(job):
     updated_job = mongo.db.jobs.update_one(
        {"job_id": job_id},
        {
-        "$set": {"status": 1}
+        "$set": {"status": 1, "data": json.dumps(results)}
        }
     )
 
