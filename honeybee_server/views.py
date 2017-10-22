@@ -1,18 +1,18 @@
 import os
+import json
+
 from flask import render_template, redirect, request, url_for, abort, flash
-from werkzeug.utils import secure_filename
+from flask import render_template, request
 from flask.json import jsonify
-from . import flask_app, celery
+from werkzeug.utils import secure_filename
+from bson import json_util
+from bson.objectid import ObjectId
+
+from . import flask_app
 from .utils import new_uuid, unzip_file, respond
 from .logger import log
 from .job import Job
-from flask import render_template, request
-from werkzeug.utils import secure_filename
-from . import flask_app
-from honeybee_server import mongo
-import json
-from bson import json_util
-from bson.objectid import ObjectId
+from . import flask_app, mongo
 
 
 @flask_app.route('/', defaults={'path': ''})
@@ -37,7 +37,6 @@ def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in flask_app.config['ALLOWED_EXTENSIONS']
 
-
 # create a job
 @flask_app.route('/job/create', methods=['POST'])
 def create_job():
@@ -58,7 +57,6 @@ def create_job():
     job_filepath = os.path.join(folder_path, 'job.zip')
     file.save(job_filepath)
 
-    # process_job.delay(job_filepath)
     job = Job(job_filepath)
     job.run()
     # TODO: create a new record in the DB with UUID
@@ -69,9 +67,7 @@ def create_job():
         "status": 0,
         "tasks": []
     })
-
     msg = "{} uploaded. job_id is {}".format(job_filepath, job_id)
-    return msg
     return respond(201, msg)
 
 
