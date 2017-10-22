@@ -3,7 +3,7 @@ from celery.utils.log import get_task_logger
 
 from . import celery
 
-task_log = get_task_logger(__name__)
+task_log = get_task_logger('honeybee_task')
 
 @celery.task()
 def process_job(filepath):
