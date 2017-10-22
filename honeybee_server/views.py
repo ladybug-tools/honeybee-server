@@ -12,6 +12,7 @@ from . import flask_app
 from honeybee_server import mongo
 import json
 from bson import json_util
+from bson.objectid import ObjectId
 
 
 @flask_app.route('/', defaults={'path': ''})
@@ -28,8 +29,8 @@ def get_all_jobs():
 
 @flask_app.route('/api/job/<string:job_id>', methods=['GET'])
 def get_one_job(job_id):
-    job = [doc for doc in mongo.db.jobs.find({"_id": job_id})]
-    return json.dumps(job, sort_keys=True, indent=4, default=json_util.default)
+    m_job = mongo.db.jobs.find_one({"_id": ObjectId(job_id)})
+    return json.dumps(m_job, sort_keys=True, indent=4, default=json_util.default)
 
 
 def allowed_file(filename):
