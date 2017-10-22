@@ -11,12 +11,10 @@
     }
    },
   "addons": [
-     "heroku-redis",
      {
        "plan": "heroku-redis:hobby-dev",
        "as": "REDIS"
      },
-     "mongolab",
      {
        "plan": "mongolab:sandbox",
        "as": "MONGODB"
