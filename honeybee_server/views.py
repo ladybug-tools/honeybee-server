@@ -2,11 +2,34 @@ import os
 from flask import render_template, redirect, request, url_for, abort
 from werkzeug.utils import secure_filename
 from flask.json import jsonify
-
 from . import flask_app, celery
 from .utils import new_uuid, unzip_file, respond
 from .logger import log
 from .job import Job
+from flask import render_template, request
+from werkzeug.utils import secure_filename
+from . import flask_app
+from honeybee_server import mongo
+import json
+from bson import json_util
+
+
+@flask_app.route('/', defaults={'path': ''})
+@flask_app.route('/<path:path>')
+def catch_all(path):
+    return render_template("index.html")
+
+
+@flask_app.route('/api/job', methods=['GET'])
+def get_all_jobs():
+    jobs = [doc for doc in mongo.db.jobs.find({})]
+    return json.dumps(jobs, sort_keys=True, indent=4, default=json_util.default)
+
+
+@flask_app.route('/api/job/<string:job_id>', methods=['GET'])
+def get_one_job(job_id):
+    job = [doc for doc in mongo.db.jobs.find({"_id": job_id})]
+    return json.dumps(job, sort_keys=True, indent=4, default=json_util.default)
 
 def allowed_file(filename):
 	return '.' in filename and \
@@ -90,3 +113,23 @@ def delete_task(taskId):
 def add_header(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
     return response
+
+@flask_app.route('/job/create', methods=['POST'])
+def upload_file():
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            #flash('No file part')
+            #return redirect(request.url)
+            return 'No file sent with request'
+        file = request.files['file']
+        # if user does not select file, browser also
+        # submit a empty part without filename
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(flask_app.config['UPLOAD_FOLDER'], filename))
+            return str(filename) + " uploaded."
+    return
