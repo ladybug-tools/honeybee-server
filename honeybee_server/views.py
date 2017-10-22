@@ -84,10 +84,15 @@ def job(job_id):
 
 
 # get a job's status
+@flask_app.route('/jobs/')
+def jobs():
+    return jsonify(os.listdir('jobs'))
+
+# get a job's status
 @flask_app.route('/job/<string:job_id>/status')
 def job_status(job_id):
     job_path = os.path.join(flask_app.config['JOBS_FOLDER'], job_id)
-    return jsonify(os.listdir('jobs'))
+    return jsonify(os.listdir(job_path))
     # return jsonify(
     #     # placeholder info for Mingbo
     #     {
