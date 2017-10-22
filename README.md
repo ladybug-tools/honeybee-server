@@ -14,7 +14,7 @@ Thank you for the great team to make this possible!
 ![image](https://user-images.githubusercontent.com/2915573/31865331-7ae89882-b73b-11e7-9ee5-3e71b142b1df.png)
 
 
-You can check our presentation slides here:
+You can check our presentation slides [here](https://docs.google.com/presentation/d/1YlwquhsBBgxfumkY-J7UKnoCuar_B2suB9dp5pNW33M/edit?usp=sharing):
 [![image](https://user-images.githubusercontent.com/2915573/31865438-f49fee68-b73c-11e7-80ca-bf4534caa8e0.png)
-](![image](https://user-images.githubusercontent.com/2915573/31865438-f49fee68-b73c-11e7-80ca-bf4534caa8e0.png)
+](https://docs.google.com/presentation/d/1YlwquhsBBgxfumkY-J7UKnoCuar_B2suB9dp5pNW33M/edit?usp=sharing)
 )
