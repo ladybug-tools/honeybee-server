@@ -228,7 +228,7 @@ class GridBased(GenericGridBased):
         oc.sceneFiles = tuple(self.relpath(f, projectFolder) for f in octSceneFiles)
 
         # # 4.2.prepare rtrace
-        rt = Rtrace('result\\' + projectName,
+        rt = Rtrace('result/' + projectName,
                     simulationType=self.simulationType,
                     radianceParameters=self.radianceParameters)
         rt.radianceParameters.h = True
@@ -236,7 +236,7 @@ class GridBased(GenericGridBased):
         rt.pointsFile = self.relpath(pointsFile, projectFolder)
 
         # # 4.3. add rcalc to convert rgb values to irradiance
-        rc = Rcalc('result\\{}.ill'.format(projectName), str(rt.outputFile))
+        rc = Rcalc('result/{}.ill'.format(projectName), str(rt.outputFile))
 
         if os.name == 'nt':
             rc.rcalcParameters.expression = '"$1=(0.265*$1+0.67*$2+0.065*$3)*179"'
