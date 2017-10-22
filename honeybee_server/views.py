@@ -15,8 +15,8 @@ from .job import Job
 from . import flask_app, mongo
 
 
+# @flask_app.route('/<path:path>')
 @flask_app.route('/', defaults={'path': ''})
-@flask_app.route('/<path:path>')
 def catch_all(path):
     return render_template("index.html")
 
@@ -43,6 +43,7 @@ def create_job():
     job_id = new_uuid()
     log.debug('Job Received: {}'.format(job_id))
 
+    # import pdb; pdb.set_trace()
     file = request.files.get('file', None)
     if not file:
         return respond(400, 'No file sent with request')
@@ -61,12 +62,12 @@ def create_job():
     job.run()
     # TODO: create a new record in the DB with UUID
 
-    new_job = mongo.db.jobs.insert_one({
-        "job_id": job_id,
-        "created_by": "webuser",
-        "status": 0,
-        "tasks": []
-    })
+    # new_job = mongo.db.jobs.insert_one({
+    #     "job_id": job_id,
+    #     "created_by": "webuser",
+    #     "status": 0,
+    #     "tasks": []
+    # })
     return respond(201, job_id)
 
 

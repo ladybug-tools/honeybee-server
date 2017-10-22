@@ -6,7 +6,7 @@ LOG_LEVEL = os.getenv('LOG_LEVEL', 'DEBUG')
 
 LOGGER_CONFIG = {
       "version": 1,
-      "disable_existing_loggers": True,
+      "disable_existing_loggers": False,
       "handlers":
       {"console": {"class": "logging.StreamHandler", "formatter": "simple"}},
       "formatters": {

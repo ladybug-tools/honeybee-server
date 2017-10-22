@@ -9,14 +9,13 @@ from celery.utils.log import get_task_logger
 from . import celery
 from .utils import unzip_file, run_cmd
 
+task_log = get_task_logger(__name__)
 
 @celery.task()
 def process_job(filepath):
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+    sys.stdout.write('TEST!')
+    sys.stdout.flush()
     print('Print: Job Started')
-    task_log = get_task_logger('process_job')
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-
     task_log.info('Job START: {}'.format(filepath))
     task_log.info('Unzipping...')
     job_folder = unzip_file(filepath)
