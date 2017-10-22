@@ -13,7 +13,7 @@ LOGGER_CONFIG = {
           "simple": {
               "format": "[%(levelname)s] %(message)s [%(filename)s](%(lineno)d)[%(asctime)s]",
               "datefmt": "%I:%M:%S"}},
-      "loggers": {"": {"handlers": ["console"], "level": LOG_LEVEL}}}
+      "loggers": {"honeybee": {"handlers": ["console"], "level": LOG_LEVEL}}}
 
 log_levels = {50: 'CRITICAL',
               40: 'ERROR',
@@ -24,5 +24,5 @@ log_levels = {50: 'CRITICAL',
 
 dictConfig(LOGGER_CONFIG)
 
-log = logging.getLogger()  # Sets Root Logger
+log = logging.getLogger("honeybee")  # Sets Root Logger
 log.info('** LOG LEVEL: {}'.format(log_levels[log.getEffectiveLevel()]))

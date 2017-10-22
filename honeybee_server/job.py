@@ -11,6 +11,12 @@ from . import celery
 from .utils import unzip_file, run_cmd
 
 task_log = get_task_logger(__name__)
+ch = logging.StreamHandler()
+ch.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+# add the handlers to the logger
+task_log.addHandler(ch)
 
 @signals.setup_logging.connect
 def on_celery_setup_logging(**kwargs):
@@ -20,6 +26,8 @@ def on_celery_setup_logging(**kwargs):
 def process_job(filepath):
     # sys.stdout.write('TEST!')
     # sys.stdout.flush()
+    print(task_log)
+    print(task_log.handlers)
     log.critical('test')
     print('Print: Job Started')
     task_log.critical('Job START: {}'.format(filepath))
