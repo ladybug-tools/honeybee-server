@@ -83,18 +83,24 @@ class SolarAccessGridBased(GenericGridBased):
               "hoys": [], // list of hours of the year
               "surfaces": [], // list of honeybee surfaces
               "analysis_grids": [] // list of analysis grids
+              "sun_vectors": [] // list of sun vectors if location is not provided
             }
         """
-        loc = Location.fromJson(recJson['location'])
         hoys = recJson["hoys"]
-        sp = Sunpath.fromLocation(loc)
-        suns = (sp.calculateSunFromHOY(HOY) for HOY in hoys)
-        sunVectors = tuple(s.sunVector for s in suns if s.isDuringDay)
+        if 'sun_vectors' not in recJson or not recJson['sun_vectors']:
+            loc = Location.fromJson(recJson['location'])
+            sp = Sunpath.fromLocation(loc)
+            suns = (sp.calculateSunFromHOY(HOY) for HOY in hoys)
+            sunVectors = tuple(s.sunVector for s in suns if s.isDuringDay)
+        else:
+            sunVectors = recJson['sun_vectors']
+
         analysisGrids = \
             tuple(AnalysisGrid.fromJson(ag) for ag in recJson["analysis_grids"])
         hbObjects = tuple(HBSurface.fromJson(srf) for srf in recJson["surfaces"])
         return cls(sunVectors, hoys, analysisGrids, 1, hbObjects)
 
+    @classmethod
     def fromPointsAndVectors(cls, sunVectors, hoys, pointGroups, vectorGroups=[],
                              timestep=1, hbObjects=None, subFolder='sunlighthour'):
         """Create sunlighthours recipe from points and vectors.
@@ -259,6 +265,7 @@ class SolarAccessGridBased(GenericGridBased):
             _geo[count] = \
                 'solar{0} source sun{0} 0 0 4 {1} {2} {3} 0.533'.format(
                     count, v.X, v.Y, v.Z)
+
         _sunsf = writeToFile(os.path.join(targetDir, projectName + '.sun'),
                              '\n'.join(_suns) + '\n', mkdir)
         _matf = writeToFile(os.path.join(targetDir, projectName + '_suns.mat'),
@@ -312,6 +319,7 @@ class SolarAccessGridBased(GenericGridBased):
 
         # 1.write points
         pointsFile = self.writeAnalysisGrids(projectFolder, projectName)
+
         # 2.write sun files
         sunsList, sunsMat, sunsGeo = \
             self.writeSuns(projectFolder + '/sky', projectName)
@@ -333,14 +341,14 @@ class SolarAccessGridBased(GenericGridBased):
         oc.sceneFiles = tuple(self.relpath(f, projectFolder) for f in octSceneFiles)
 
         # # 4.2.prepare Rcontrib
-        rct = Rcontrib('result\\' + projectName,
+        rct = Rcontrib('result/' + projectName,
                        rcontribParameters=self._radianceParameters)
         rct.octreeFile = str(oc.outputFile)
         rct.pointsFile = self.relpath(pointsFile, projectFolder)
 
         batchFile = os.path.join(projectFolder, "commands.bat")
         rmtx = RGBMatrixFileToIll((str(rct.outputFile),),
-                                  'result\\{}.ill'.format(projectName))
+                                  'result/{}.ill'.format(projectName))
 
         # # 4.3 write batch file
         self._commands.append(oc.toRadString())
@@ -375,3 +383,23 @@ class SolarAccessGridBased(GenericGridBased):
             )
 
         return self.analysisGrids
+
+    def toJson(self):
+        """Create the solar access recipe from json.
+            {
+              "id": 0, // do NOT overwrite this id
+              "location": null, // a honeybee location - see below
+              "hoys": [], // list of hours of the year
+              "surfaces": [], // list of honeybee surfaces
+              "analysis_grids": [], // list of analysis grids
+              "sun_vectors": []
+            }
+        """
+        return {
+            "id": 0,
+            "location": None,
+            "hoys": self.hoys,
+            "surfaces": [srf.toJson() for srf in self.hbObjects],
+            "analysis_grids": [ag.toJson() for ag in self.analysisGrids],
+            "sun_vectors": [tuple(-1 * c for c in v) for v in self.sunVectors]
+        }

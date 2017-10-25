@@ -1,0 +1,20 @@
+body {
+  min-height: 75rem; /* Can be removed; just added for demo purposes */
+}
+
+.jumbotron {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  margin-bottom: 0;
+  background-color: #fff;
+}
+
+
+.jumbotron .container h1{
+  font-weight: 300;
+  padding-left: 15px;
+}
+
+a{
+  text-decoration: none
+}

@@ -13,16 +13,13 @@ class Config(object):
     # ASSETS_DEBUG = True if os.getenv('ASSETS_DEBUG') == '1' else False
 
     JOBS_FOLDER = os.path.join(os.path.dirname(BASEDIR),'jobs')
-    ALLOWED_EXTENSIONS = set(['zip'])
+    ALLOWED_EXTENSIONS = set(['zip', 'json'])
 
 class Development(Config):
     MODE = 'Development'
     DEBUG = True
     REDIS_URL = 'redis://localhost:6379'
-    # REDIS_URL = 'redis://localhost:6379/0'
     CELERY_BROKER_URL = CELERY_RESULT_BACKEND = REDIS_URL
-    # MONGO_PORT = 27017
-    # MONGO_HOST = 'http://127.0.0.1'
 
 class Production(Config):
     MODE = 'Production'

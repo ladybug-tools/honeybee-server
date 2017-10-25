@@ -1,12 +1,15 @@
 <template>
-  <div class="panel panel-default">
-    Job: {{job._id.$oid}} - {{job.created_by}}
+  <div>
     <div class="panel panel-default">
-      <ul class="list-group">
+      Job: {{job.job_id}} - {{job.created_by}}
+    </div>
+    <div class="panel panel-default">
+    <!--  <ul class="list-group">
         <li class="list-group-item" v-for="task in job.tasks">
           Task: {{task.$oid}}
         </li>
-      </ul>
+      </ul>-->
+      Data: {{job.data}}
     </div>
   </div>
 </template>
@@ -22,11 +25,11 @@
     },
     methods: {
       getJob () {
-        const path = `http://localhost:5000/api/job/` + this.$route.params.job_id
+        const path = `api/job/` + this.$route.params.job_id
         axios.get(path)
           .then(response => {
-            console.log(response);
-            this.job = response.data
+            console.log(response.data.message)
+            this.job = response.data.message
           })
           .catch(error => {
             console.log(error)

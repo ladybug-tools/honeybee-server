@@ -8,8 +8,7 @@ from werkzeug.utils import secure_filename
 from bson import json_util
 from bson.objectid import ObjectId
 
-from . import flask_app
-from .utils import new_uuid, unzip_file, respond
+from .utils import new_uuid, unzip_file, respond, JSONEncoder
 from .logger import log
 from .job import Job
 from . import flask_app, mongo
@@ -21,17 +20,21 @@ def catch_all(path):
     return render_template("index.html")
 
 
-@flask_app.route('/api/job', methods=['GET'])
+@flask_app.route('/api/jobs', methods=['GET'])
 def get_all_jobs():
     jobs = [doc for doc in mongo.db.jobs.find({})]
-    return json.dumps(jobs, sort_keys=True, indent=4, default=json_util.default)
+    [j.pop('_id') for j in jobs]
+    [j.pop('data', None) for j in jobs]
+    return respond(200, jobs)
 
 
 @flask_app.route('/api/job/<string:job_id>', methods=['GET'])
 def get_one_job(job_id):
-    m_job = mongo.db.jobs.find_one({"_id": ObjectId(job_id)})
-    return json.dumps(m_job, sort_keys=True, indent=4, default=json_util.default)
-
+    m_job = mongo.db.jobs.find_one({"job_id": job_id})
+    m_job.pop('_id')
+    if m_job.get('data'):
+        m_job['data'] = json.loads(m_job['data'])
+    return respond(200, m_job)
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -43,24 +46,12 @@ def create_job():
     job_id = new_uuid()
     log.debug('Job Received: {}'.format(job_id))
 
-    # import pdb; pdb.set_trace()
     file = request.files.get('file', None)
     if not file:
         return respond(400, 'No file sent with request')
 
     if not allowed_file(file.filename):
         return respond(400, 'Invalid file type: {}'.format(filename))
-
-    jobs_folder = flask_app.config['JOBS_FOLDER']
-    filename = secure_filename(file.filename)
-    folder_path = os.path.join(jobs_folder, job_id)
-    os.mkdir(folder_path)
-    job_filepath = os.path.join(folder_path, 'job.zip')
-    file.save(job_filepath)
-
-    job = Job(job_filepath)
-    job.run()
-    # TODO: create a new record in the DB with UUID
 
     log.debug('Creating Mongo Entry')
     new_job = mongo.db.jobs.insert_one({
@@ -71,7 +62,22 @@ def create_job():
     })
     log.debug('Mongo Entry Created')
 
-    return respond(201, job_id)
+    jobs_folder = flask_app.config['JOBS_FOLDER']
+    filename = secure_filename(file.filename)
+    file_ext = filename.split('.')[-1]
+    folder_path = os.path.join(jobs_folder, job_id)
+    os.mkdir(folder_path)
+
+    job_filepath = os.path.join(folder_path, 'job.{}'.format(file_ext))
+    file.save(job_filepath)
+
+    # job
+    job = Job(job_filepath, job_id)
+    results = job.run()
+    # TODO: create a new record in the DB with UUID
+
+    # return respond(201, job_id)
+    return respond(201, results)
 
 
 # get job data or delete a job
@@ -160,3 +166,21 @@ def upload_file():
             file.save(os.path.join(flask_app.config['UPLOAD_FOLDER'], filename))
             return str(filename) + " uploaded."
     return
+
+
+@flask_app.route('/design/<string:job_id>')
+def dd_status(job_id):
+
+    jobs = [doc for doc in mongo.db.jobs.find({})]
+    response =  {
+                 "JobID": job_id,
+                 "Simulations": []
+                }
+    for job in jobs:
+        job = {
+                "ChildID": new_uuid(),
+                "Status": bool(job['status']),
+              }
+        response['Simulations'].append(job)
+
+    return respond(200, response)

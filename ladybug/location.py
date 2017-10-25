@@ -167,6 +167,24 @@ class Location(object):
         """Overwrite .NET ToString."""
         return self.__repr__()
 
+    def toJson(self):
+        """Create a location from json.
+        {
+          "city": "",
+          "latitude": 0,
+          "longitude": 0,
+          "time_zone": 0,
+          "elevation": 0
+        }
+        """
+        return {
+            "city": self.city,
+            "latitude": self.latitude,
+            "longitude": self.longitude,
+            "time_zone": self.timezone,
+            "elevation": self.elevation
+        }
+
     def __repr__(self):
         """Return location as a string."""
         # Tehran, lat:36, lon:34, tz:3.5, elev:54
