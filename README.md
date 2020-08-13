@@ -1,3 +1,5 @@
+# This project is retired! For the latest version of honeybee docker images see [ladybug tools repository on docker hub](https://hub.docker.com/u/ladybugtools).
+
 # honeybee-server
 ![honeybee-flying](https://user-images.githubusercontent.com/2915573/31865453-2591200a-b73d-11e7-9711-94a66604b6b9.gif)
 
